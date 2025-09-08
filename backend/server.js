@@ -18,7 +18,7 @@ app.use(cors({
 app.use(express.json());
 
 // ✅ MongoDB connect
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ecommerce', {
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/ecommerce', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
