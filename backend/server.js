@@ -9,16 +9,14 @@ const cartRoutes = require('./routes/cart');
 
 const app = express();
 
-
 app.use(cors());
 app.use(express.json());
 
-
+// MongoDB connect
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ecommerce', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
@@ -68,13 +66,6 @@ const sampleProducts = [
     price: 199,
     category: 'Sports',
     image: 'https://images.unsplash.com/photo-1544117519-31a4b719223d?w=400'
-  },  
-  {
-    name: 'Fitness Tracker',
-    description: 'Smart fitness tracker with heart rate monitor',
-    price: 199,
-    category: 'Sports',
-    image: 'https://images.unsplash.com/photo-1544117519-31a4b719223d?w=400'
   }
 ];
 
@@ -95,7 +86,22 @@ mongoose.connection.once('open', () => {
   initializeData();
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (require.main === module) {
+  // Local run ke liye
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+} else {
+  // Vercel ke liye
+  module.exports = app;
+}
+
+// 🔴 Remove app.listen for Vercel
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+
+// ✅ Export for Vercel
+module.exports = app;
