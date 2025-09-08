@@ -11,7 +11,7 @@ const Product = require('./models/Product');
 const app = express();
 
 app.use(cors({
-  origin: "https://shop-4f26.vercel.app",
+  origin: "https://shop-97dk.onrender.com",
   credentials: true
 }));
 
