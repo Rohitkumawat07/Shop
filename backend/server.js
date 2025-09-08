@@ -10,7 +10,11 @@ const Product = require('./models/Product');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "https://shop-4f26.vercel.app",
+  credentials: true
+}));
+
 app.use(express.json());
 
 // ✅ MongoDB connect
