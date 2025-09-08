@@ -18,6 +18,12 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ecommerce
   useUnifiedTopology: true,
 });
 
+// ✅ Root route (fix for Cannot GET /)
+app.get("/", (req, res) => {
+  res.send("Backend server is running 🚀");
+});
+
+// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
@@ -86,22 +92,13 @@ mongoose.connection.once('open', () => {
   initializeData();
 });
 
+// ✅ Local run ke liye listen
 if (require.main === module) {
-  // Local run ke liye
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
 } else {
-  // Vercel ke liye
+  // ✅ Vercel ke liye export
   module.exports = app;
 }
-
-// 🔴 Remove app.listen for Vercel
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
-
-// ✅ Export for Vercel
-module.exports = app;
